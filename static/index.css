@@ -1,0 +1,35 @@
+*{    
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.1em;
+    color: black;
+    margin:0;
+}
+
+
+div {
+  
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+
+
+}
+
+a {
+    padding: .5em;
+}
+
+.imageByWidth {
+    width: 70vw;
+    padding:1em;
+    }
+
+.imageByHeight {
+    Height: 60vh;
+    padding: 1em;}
