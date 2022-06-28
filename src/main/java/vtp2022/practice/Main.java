@@ -6,11 +6,9 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * Hello world!
- *
- */
-//mvn compile exec:java -Dexec.mainClass="vtp2022.practice.Main" -Dexec.args="cartdb"
+
+//mvn compile exec:java -Dexec.mainClass="vtp2022.practice.Main"
+//java -jar target/sdf-practice-assessment1-1.0-SNAPSHOT.jar
 public class Main 
 {
     public static int port = 3000;

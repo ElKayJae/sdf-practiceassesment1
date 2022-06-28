@@ -3,8 +3,6 @@ package vtp2022.practice;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.Socket;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 
@@ -39,11 +37,9 @@ public class HttpClientConnection implements Runnable {
             if (resourceName.equals("/"))
                 resourceName ="/index.html";
             resourceName = resourceName.replace("/", "");
-            Path resourcePath = Paths.get(stringPath, resourceName);
-            System.out.println(resourcePath);
             System.out.println(resourceName);
 
-            // resourceName = "xxx";
+            resourceName = "xxx";
 
             //Check first term terms[0]
             if (!methodName.equals("GET")){
@@ -94,8 +90,7 @@ public class HttpClientConnection implements Runnable {
                     httpServer.flush();
                     fis.close();
                     
-                } else fileFound = true;
-
+                } else fileFound = false;
                 }
 
                 if (!fileFound){
