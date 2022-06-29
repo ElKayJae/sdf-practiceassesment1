@@ -1,7 +1,7 @@
 package vtp2022.practice;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -13,7 +13,6 @@ public class HttpServer {
     public Socket socket;
     public InputStream is;
     public OutputStream os;
-    public DataOutputStream dos;
     public InputStreamReader isr;
     public BufferedReader br;
     

@@ -39,7 +39,7 @@ public class HttpClientConnection implements Runnable {
             resourceName = resourceName.replace("/", "");
             System.out.println(resourceName);
 
-            resourceName = "xxx";
+            // resourceName = "xxx";
 
             //Check first term terms[0]
             if (!methodName.equals("GET")){
@@ -47,6 +47,7 @@ public class HttpClientConnection implements Runnable {
                                     + " not supported \r\n";
                 httpServer.writeString(response);
                 socket.close();
+                httpServer.close();
             }
 
             System.out.println("Checking resource...");
@@ -70,6 +71,8 @@ public class HttpClientConnection implements Runnable {
             
 
             for(File file: directoryList){
+                System.out.println("filename " + file.getName());
+                System.out.println("resource name " + resourceName);
                 if (file.getName().equals(resourceName)){
                     System.out.println(resourceName);
                     System.out.println(file.getName() + " is found");
@@ -77,7 +80,6 @@ public class HttpClientConnection implements Runnable {
                     System.out.println(file);
                     byte[] data = fis.readAllBytes();
                     fis.close();
-                    
                     if (resourceName.contains(".png")){
                         response = "HTTP/1.1 200 OK\r\n Content-Type: image/png\r\n\r\n";
                         System.out.println("resource contains png");
@@ -91,7 +93,7 @@ public class HttpClientConnection implements Runnable {
                     fis.close();
                     
                 } else fileFound = false;
-                }
+            }
 
                 if (!fileFound){
                     response = "HTTP/1.1 404 Not Found\r\n\r\n" + resourceName 
@@ -106,9 +108,6 @@ public class HttpClientConnection implements Runnable {
         e.printStackTrace();
         }
     }
-
-
-
 
     public void checkPath(){
         if (!docRoot.exists()){
