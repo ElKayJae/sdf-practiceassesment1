@@ -20,8 +20,8 @@ public class HttpServer {
         this.socket = socket;
         this.is = socket.getInputStream();
         this.os = socket.getOutputStream();
-        this.isr = new InputStreamReader(is);
-        this.br = new BufferedReader(isr);
+        this.isr = new InputStreamReader(this.is);
+        this.br = new BufferedReader(this.isr);
         
     }
 
@@ -30,7 +30,7 @@ public class HttpServer {
     }
     
     public void writeBytes(byte[] buffer, int start, int offset) throws Exception {
-        os.write(buffer, start, offset);
+        this.os.write(buffer, start, offset);
     }
 
 
@@ -43,8 +43,8 @@ public class HttpServer {
         }
 
     public void close() throws IOException{
-        os.flush();
-        os.close();
+        this.os.flush();
+        this.os.close();
     }
 
     public void flush() throws Exception {

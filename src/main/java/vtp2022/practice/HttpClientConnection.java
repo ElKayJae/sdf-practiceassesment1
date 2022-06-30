@@ -10,19 +10,13 @@ import java.util.ArrayList;
 public class HttpClientConnection implements Runnable {
 
     Socket socket;
-    String stringPath;
-    String stringPath2;
-    File docRoot;
-    File docRoot2;
-    Boolean fileFound = false;
+    Boolean fileFound = true;
+    ArrayList<File> fileList = new ArrayList<>();
+
     
-    public HttpClientConnection(Socket socket, String stringPath, String stringPath2){
+    public HttpClientConnection(Socket socket, ArrayList<File> fileList){
         this.socket = socket;
-        this.stringPath = stringPath;
-        this.stringPath2 = stringPath2;
-        this.docRoot = new File(stringPath);
-        if (null != stringPath2)
-        this.docRoot = new File(stringPath2);
+        this.fileList = fileList;
     }
 
     @Override
@@ -37,42 +31,29 @@ public class HttpClientConnection implements Runnable {
             if (resourceName.equals("/"))
                 resourceName ="/index.html";
             resourceName = resourceName.replace("/", "");
-            System.out.println(resourceName);
+            System.out.println("New Resource: " + resourceName);
 
-            // resourceName = "xxx";
+            // resourceName = "xxxTESTINGxx";
+            // methodName = "TEST";
 
             //Check first term terms[0]
             if (!methodName.equals("GET")){
                 String response = "HTTP/1.1 405 Method Not Allowed\r\n\r\n" + methodName 
                                     + " not supported \r\n";
                 httpServer.writeString(response);
-                socket.close();
                 httpServer.close();
-            }
+                System.out.println(methodName + " not allowed");
+                socket.close();
 
+            } else {
+  
             System.out.println("Checking resource...");
 
             //Check resource terms[1]
-            ArrayList<File> directoryList = new ArrayList<>();
             String response;
-            
-            
-            for (File file: docRoot.listFiles()){
-                directoryList.add(file);  
-            } 
-            
-            if (null!=docRoot2){
-                for (File file: docRoot2.listFiles()) directoryList.add(file);
-            }
-
-            for (File file: docRoot.listFiles()){
-                System.out.println(file); 
-            } 
-            
-
-            for(File file: directoryList){
-                System.out.println("filename " + file.getName());
+            for(File file: fileList){
                 System.out.println("resource name " + resourceName);
+                System.out.println("filename " + file.getName());
                 if (file.getName().equals(resourceName)){
                     System.out.println(resourceName);
                     System.out.println(file.getName() + " is found");
@@ -91,49 +72,27 @@ public class HttpClientConnection implements Runnable {
                     httpServer.writeBytes(data);
                     httpServer.flush();
                     fis.close();
+                    fileFound=true;
+                    System.out.println("fileFound is " + fileFound);
+                    System.out.println("BREAK OUT OF FOR LOOP");
+                    break;
                     
                 } else fileFound = false;
             }
+            
 
                 if (!fileFound){
                     response = "HTTP/1.1 404 Not Found\r\n\r\n" + resourceName 
                     + " not found \r\n";
-                    System.out.println("file not found");
-                    System.out.println(resourceName);
+                    System.out.println(resourceName + " not found");
                     httpServer.writeString(response);
                 }
                 httpServer.close();
                 socket.close();
+                System.out.println("SOCKET CLOSE");
+            }
         } catch (Exception e) {
         e.printStackTrace();
         }
     }
-
-    public void checkPath(){
-        if (!docRoot.exists()){
-            System.out.println(docRoot +" does not exist");
-            System.exit(1);
-        } else if (!docRoot.isDirectory()){
-                System.out.println(docRoot +" is not a directory");
-                System.exit(1);
-            } else if (!docRoot.canRead()){
-                System.out.println(docRoot +" is not readable");
-                System.exit(1);
-            } else System.out.println(docRoot +" is readable");
-
-
-            if (null!=stringPath2){
-                if (!docRoot2.exists()){
-                    System.out.println(docRoot2 + " does not exist");
-                } else if (!docRoot2.isDirectory()){
-                        System.out.println(docRoot2 + " is not a directory");
-                        System.exit(1);
-                    } else if (!docRoot2.canRead()){
-                        System.out.println(docRoot2 + " is not readable");
-                        System.exit(1);
-                    } else System.out.println(docRoot2 + " is readable");       
-            }
-    }
-
-
 }
